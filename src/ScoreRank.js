@@ -4,8 +4,8 @@ import {Action} from "./flux/Actions";
 import {List} from "antd";
 
 class ScoreRank extends React.Component {
-    componentWillMount() {
-        this.props.dispatch(new Action(JSON.parse(window.localStorage.scoreList || '[]')));
+    componentDidMount() {
+        this.props.dispatch(Action(JSON.parse(window.localStorage.scoreList || '[]')));
     }
 
     render() {
@@ -18,5 +18,5 @@ class ScoreRank extends React.Component {
 }
 
 export default connect((state) => ({
-    score: state.score.map(scoreObj => (scoreObj.point + scoreObj.createAt)),
+    score: state.score.map(scoreObj => (scoreObj.point + scoreObj.createdAt)),
 }))(ScoreRank);

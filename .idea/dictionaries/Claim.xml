@@ -2,8 +2,11 @@
   <dictionary name="Claim">
     <words>
       <w>antd</w>
+      <w>keydown</w>
       <w>lodash</w>
+      <w>redux</w>
       <w>scorelist</w>
+      <w>unmount</w>
     </words>
   </dictionary>
 </component>
