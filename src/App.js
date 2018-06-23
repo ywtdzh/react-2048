@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
-import {Layout, Button} from 'antd';
 import './App.css';
+import {Provider} from 'react-redux';
+import {combineReducers, createStore} from 'redux';
+import {createBrowserHistory} from 'history';
+import RootRouter from './RootRouter';
+import reducers from "./flux/Reducers";
 
-const {Header, Footer, Content} = Layout;
+
+const store = createStore(combineReducers({...reducers}));
 
 class App extends Component {
     render() {
-        return [
-            <Header>header</Header>,
-            <Content ><Button type="primary">Button</Button></Content>,
-            <Footer>footer</Footer>,
-        ];
+        return <Provider store={store}>
+            <RootRouter history={createBrowserHistory()}/>
+        </Provider>;
     }
 }
 
