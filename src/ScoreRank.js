@@ -13,6 +13,7 @@ class ScoreRank extends React.Component {
             bordered
             dataSource={this.props.score}
             renderItem={item => (<List.Item>{item}</List.Item>)}
+            style={{minHeight: '50vh'}}
         />);
     }
 }

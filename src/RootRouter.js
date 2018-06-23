@@ -8,14 +8,14 @@ import Checkerboard from "./Checkerboard";
 const {Header, Footer, Content} = Layout;
 
 function NavItem(props) {
-    return <small style={{paddingLeft: '50px'}}>{props.children}</small>
+    return <small style={{paddingLeft: '30px'}} className="hide-when-narrow">{props.children}</small>
 }
 
 function RootRouter(props) {
     return <Router {...props}>
         <Route path='/' component={() => <React.Fragment>
             <Header>
-                <h2 style={{color: '#EEEEEE'}}>React-2048&nbsp;
+                <h2 style={{color: '#EEEEEE', overflowX: 'hidden', whiteSpace: 'nowrap'}}>React-2048&nbsp;
                     <NavItem><Link to='/checkerboard'>游戏</Link></NavItem>
                     <NavItem><Link to='/scorelist'>排行</Link></NavItem>
                 </h2>
