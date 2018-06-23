@@ -2,6 +2,7 @@
   "name": "react-2048",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "dependencies": {
     "antd": "^3.6.2",
     "babel-plugin-import": "^1.8.0",
