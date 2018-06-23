@@ -26,6 +26,7 @@ class Checkerboard extends React.Component {
                 case Hammer.DIRECTION_DOWN:
                     this.move(Hammer.DIRECTION_DOWN);
                     break;
+                default:
             }
         });
     }
@@ -39,9 +40,39 @@ class Checkerboard extends React.Component {
     }
 
     move(direction) {
-        // todo
-        console.log(direction)
-        this.moveItem(direction, 0, 0);
+        const matrix = this.state.board.map(row => [...row]);
+        switch (direction) {
+            case Hammer.DIRECTION_LEFT:
+                for (let col = 0; col < 4; col++) {
+                    for (let row = 0; row < 4; row++) {
+
+                    }
+                }
+                break;
+            case Hammer.DIRECTION_UP:
+                for (let row = 0; row < 4; row++) {
+                    for (let col = 0; col < 4; col++) {
+
+                    }
+                }
+                break;
+            case Hammer.DIRECTION_RIGHT:
+                for (let col = 3; col > -1; col++) {
+                    for (let row = 3; row > -1; row++) {
+
+                    }
+                }
+                break;
+            case Hammer.DIRECTION_DOWN:
+                for (let row = 3; row > -1; row++) {
+                    for (let col = 3; col > -1; col++) {
+
+                    }
+                }
+                break;
+            default: // do nothing
+        }
+        this.setState({board: matrix});
     }
 
     moveItem(direction, rowIndex, colIndex) {
@@ -51,6 +82,7 @@ class Checkerboard extends React.Component {
             case Hammer.DIRECTION_UP:
             case Hammer.DIRECTION_RIGHT:
             case Hammer.DIRECTION_DOWN:
+            default:
         }
     }
 
