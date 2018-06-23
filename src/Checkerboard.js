@@ -9,10 +9,10 @@ class Checkerboard extends React.Component {
     componentDidMount() {
         this.props.dispatch(Action(JSON.parse(window.localStorage.scoreList || '[]')));
         window.addEventListener("keydown", this.keyDown);
-        this.operationRecognizer = new Hammer.Manager(findDOMNode(this), {
+        this.swipeManager = new Hammer.Manager(findDOMNode(this), {
             recognizers: [[Hammer.Swipe, {direction: Hammer.DIRECTION_ALL}]],
         });
-        this.operationRecognizer.on("swipe", (events) => {
+        this.swipeManager.on("swipe", (events) => {
             switch (events.direction) {
                 case Hammer.DIRECTION_LEFT:
                     this.move(Hammer.DIRECTION_LEFT);
@@ -55,7 +55,7 @@ class Checkerboard extends React.Component {
     }
 
     keyDown = (event) => {
-        event.defaultPrevented = true;
+        if (event.defaultPrevented === true) return;
         event.preventDefault();
         if (event.key && event.key.startsWith('Arrow')) {
             this.move(Hammer["DIRECTION_" + event.key.slice(5).toUpperCase()]);
@@ -68,7 +68,7 @@ class Checkerboard extends React.Component {
 
     componentWillUnmount() {
         window.addEventListener("keydown", this.keyDown);
-        this.operationRecognizer.remove('swipe');
+        this.swipeManager.remove('swipe');
     }
 }
 
