@@ -88,7 +88,7 @@ class Checkerboard extends React.Component {
     };
 
     move = (direction, isTest) => {
-        if (this.state.locked) return;
+        if (this.signal > 0) return;
         const matrix = this.state.board.map(row => row.slice());
         const modified = _.fill(new Array(4), false).map(() => _.fill(new Array(4), false));
         let score = this.state.score, moved = false;
@@ -123,7 +123,6 @@ class Checkerboard extends React.Component {
                             matrix[row][0] = matrix[row][col];
                             matrix[row][col] = 0;
                         }
-                        if (!isTest) this.moveItem(direction, row, col, distance);
                     }
                 }
                 break;
@@ -157,7 +156,6 @@ class Checkerboard extends React.Component {
                             matrix[0][col] = matrix[row][col];
                             matrix[row][col] = 0;
                         }
-                        if (!isTest) this.moveItem(direction, row, col, distance);
                     }
                 }
                 break;
@@ -191,7 +189,6 @@ class Checkerboard extends React.Component {
                             matrix[row][3] = matrix[row][col];
                             matrix[row][col] = 0;
                         }
-                        if (!isTest) this.moveItem(direction, row, col, distance);
                     }
                 }
                 break;
@@ -225,7 +222,6 @@ class Checkerboard extends React.Component {
                             matrix[3][col] = matrix[row][col];
                             matrix[row][col] = 0;
                         }
-                        if (!isTest) this.moveItem(direction, row, col, distance);
                     }
                 }
                 break;
@@ -259,19 +255,6 @@ class Checkerboard extends React.Component {
         } else {
             return null;
         }
-    };
-
-    moveItem = (direction, rowIndex, colIndex, distance) => {
-        // todo
-        this.signal++;
-        switch (direction) {
-            case Hammer.DIRECTION_LEFT:
-            case Hammer.DIRECTION_UP:
-            case Hammer.DIRECTION_RIGHT:
-            case Hammer.DIRECTION_DOWN:
-            default:
-        }
-        this.signal--;
     };
 
     resetBoard = () => {
