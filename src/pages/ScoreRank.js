@@ -9,12 +9,12 @@ class ScoreRank extends React.Component {
     }
 
     render() {
-        return (<List
+        return (<div style={{width: '100%'}}><List
             bordered
             dataSource={this.props.score}
             renderItem={item => (<List.Item>{item}</List.Item>)}
-            style={{minHeight: '80vh', width: '100%'}}
-        />);
+            style={{minHeight: '80vh'}}
+        /></div>);
     }
 }
 
