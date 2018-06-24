@@ -13,11 +13,13 @@ function NumBlock(props) {
         fontWeight: 'bold',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
+        borderRadius: '10px',
         fontSize,
     }}>
         {props.index ? Math.pow(2, props.index).toFixed(0) : null}
     </div>;
 }
+
 
 // noinspection SpellCheckingInspection
 NumBlock.colors = [
