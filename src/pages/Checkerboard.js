@@ -126,8 +126,8 @@ class Checkerboard extends React.Component {
                         }
                         moved = true;
                         if (current > -1) {
-                            if (matrix[current][col] === matrix[row][col] && !modified[row][current]) {
-                                modified[row][current] = true;
+                            if (matrix[current][col] === matrix[row][col] && !modified[current][col]) {
+                                modified[current][col] = true;
                                 matrix[current][col]++;
                                 const got = Math.pow(2, matrix[current][col]);
                                 score += got;
@@ -192,8 +192,8 @@ class Checkerboard extends React.Component {
                         }
                         moved = true;
                         if (current < 4) {
-                            if (matrix[current][col] === matrix[row][col] && !modified[row][current]) {
-                                modified[row][current] = true;
+                            if (matrix[current][col] === matrix[row][col] && !modified[current][col]) {
+                                modified[current][col] = true;
                                 matrix[current][col]++;
                                 const got = Math.pow(2, matrix[current][col]);
                                 score += got;
