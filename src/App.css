@@ -34,6 +34,7 @@
 .content-body {
     width: 600px;
     margin: 0 auto;
+    height: 100%;
 }
 
 @media screen and (max-width: 600px) {
