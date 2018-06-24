@@ -2,6 +2,7 @@
   <dictionary name="Claim">
     <words>
       <w>antd</w>
+      <w>darkgray</w>
       <w>keydown</w>
       <w>lodash</w>
       <w>redux</w>

@@ -20,7 +20,11 @@ function RootRouter(props) {
                     <NavItem><Link to='/scorelist'>排行</Link></NavItem>
                 </h2>
             </Header>
-            <Content className="content-body">
+            <Content className="content-body" style={{
+                display:'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
                 <Switch>
                     <Route path='/checkerboard' component={() => <Checkerboard/>}/>
                     <Route path='/scorelist' component={() => <ScoreRank/>}/>

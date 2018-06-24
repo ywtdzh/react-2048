@@ -14,6 +14,7 @@ function NumBlock(props) {
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         fontSize,
+        borderRadius: '10px',
     }}>
         {props.index ? Math.pow(2, props.index).toFixed(0) : null}
     </div>;
@@ -35,7 +36,12 @@ NumBlock.colors = [
 ];
 
 function Col(props) {
-    return <div style={{width: '25%', padding: '2px', height: '100%', display: 'inline-block'}}>{props.children}</div>;
+    return <div style={{
+        width: '25%',
+        padding: '2px',
+        height: '100%',
+        display: 'inline-block',
+    }}>{props.children}</div>;
 }
 
 export function BoardRow(props) {
