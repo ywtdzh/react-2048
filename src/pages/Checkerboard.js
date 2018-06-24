@@ -162,7 +162,7 @@ class Checkerboard extends React.Component {
                 break;
             case Hammer.DIRECTION_RIGHT:
                 for (let col = 2; col > -1; col--) {
-                    for (let row = 3; row > -1; row--) {
+                    for (let row = 0; row < 4; row++) {
                         if (matrix[row][col] === 0) continue;
                         let distance = 0, current = col + 1;
                         while (current < 4 && matrix[row][current] === 0) {
@@ -196,7 +196,7 @@ class Checkerboard extends React.Component {
                 break;
             case Hammer.DIRECTION_DOWN:
                 for (let row = 2; row > -1; row--) {
-                    for (let col = 3; col > -1; col--) {
+                    for (let col = 0; col < 4; col++) {
                         if (matrix[row][col] === 0) continue;
                         let distance = 0, current = row + 1;
                         while (current < 4 && matrix[current][col] === 0) {
