@@ -294,7 +294,7 @@ class Checkerboard extends React.Component {
         for (let i = 0; i < 4; i++) {
             rows.push(<BoardRow board={this.state.board} rowIndex={i}/>);
         }
-        return [
+        return <div>
             <div>
                 <div className="screen-button" onClick={() => this.resetBoard()}>
                     <span><img src={restart}
@@ -309,13 +309,13 @@ class Checkerboard extends React.Component {
                 <div className="screen-screen">
                     得分：{this.state.score || 0}
                 </div>
-            </div>,
+            </div>
             <div style={{width: '100%', paddingTop: '100%', position: 'relative'}}>
                 <div style={{position: 'absolute', top: '0', height: '100%', width: '100%'}}>
                     {rows}
                 </div>
             </div>
-        ];
+        </div>;
     }
 
     componentWillUnmount() {

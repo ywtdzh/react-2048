@@ -15,7 +15,7 @@ function NumBlock(props) {
         whiteSpace: 'nowrap',
         fontSize,
     }}>
-        {Math.pow(2, props.index).toFixed(0)}
+        {props.index ? Math.pow(2, props.index).toFixed(0) : null}
     </div>;
 }
 
