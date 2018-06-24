@@ -1,9 +1,9 @@
 import React from 'react';
 import {Router, Route, Redirect, Link, Switch} from 'react-router-dom';
 import {Layout} from 'antd';
-import './App.css';
-import ScoreRank from "./ScoreRank";
-import Checkerboard from "./Checkerboard";
+import '../App.css';
+import ScoreRank from "../pages/ScoreRank";
+import Checkerboard from "../pages/Checkerboard";
 
 const {Header, Footer, Content} = Layout;
 

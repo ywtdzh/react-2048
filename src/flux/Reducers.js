@@ -5,7 +5,7 @@ const reducers = {
         if (action.type !== ActionType.SCORE_ACTION || action.data.length === 0) return state;
         const currentState = state.concat(action.data);
         window.localStorage.scoreList = JSON.stringify(currentState);
-        return currentState.sort((b, a) => (a.point - b.point || a.createdAt > b.createdAt));
+        return currentState.sort((b, a) => (a.maxNumber - b.maxNumber || a.point - b.point || a.createdAt > b.createdAt));
     }
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Action} from "./flux/Actions";
+import {Action} from "../flux/Actions";
 import {List} from "antd";
 
 class ScoreRank extends React.Component {
@@ -19,5 +19,5 @@ class ScoreRank extends React.Component {
 }
 
 export default connect((state) => ({
-    score: state.score.map(scoreObj => (scoreObj.point + scoreObj.createdAt)),
+    score: state.score.map((scoreObj, index) => `${index + 1} ${scoreObj.maxNumber} ${scoreObj.point} ${scoreObj.createdAt}`),
 }))(ScoreRank);

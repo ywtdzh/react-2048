@@ -3,7 +3,7 @@ import './App.css';
 import {Provider} from 'react-redux';
 import {combineReducers, createStore} from 'redux';
 import {createBrowserHistory} from 'history';
-import RootRouter from './RootRouter';
+import RootRouter from './public/RootRouter';
 import reducers from "./flux/Reducers";
 
 
