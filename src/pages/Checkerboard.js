@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button, Modal} from 'antd';
 import {findDOMNode} from 'react-dom';
 import Hammer from 'hammerjs';
 import {connect} from 'react-redux';
@@ -242,8 +243,14 @@ class Checkerboard extends React.Component {
                     && !this.move(Hammer.DIRECTION_DOWN, true)
                 ) {
                     this.props.dispatch(new Action(new Score(this.state.score, this.maxNumber)));
-                    alert(`游戏结束！您的得分为${this.state.score}，成功拼出最大数字${this.maxNumber}！`);
-                    this.resetBoard();
+                    this.signal++;
+                    Modal.confirm({
+                        title: "Game Over",
+                        content: `游戏结束！您的得分为${this.state.score}，成功拼出最大数字${this.maxNumber}！`,
+                        onOk: () => {
+                            this.resetBoard();
+                        },
+                    });
                 }
             });
         }
@@ -268,7 +275,6 @@ class Checkerboard extends React.Component {
     };
 
     resetBoard = () => {
-        this.signal = 0;
         const matrix = _.chunk(_.fill(new Array(16), 0, 0, 16), 4);
         generateNum(matrix);
         generateNum(matrix);
@@ -278,7 +284,7 @@ class Checkerboard extends React.Component {
             locked: false, // lock UI when moving
             board: matrix, // 4 * 4 board
             score: 0,
-        });
+        }, () => this.signal = 0);
     };
 
     keyDown = (event) => {
@@ -294,21 +300,22 @@ class Checkerboard extends React.Component {
         for (let i = 0; i < 4; i++) {
             rows.push(<BoardRow board={this.state.board} rowIndex={i}/>);
         }
+        // noinspection RequiredAttributes
         return <div>
             <div>
-                <div className="screen-button" onClick={() => this.resetBoard()}>
+                <Button className="screen-button" onClick={() => this.resetBoard()}>
                     <span><img src={restart}
                                style={{height: '40%', paddingRight: '1rem'}}
                                alt=""/></span>重新来过
-                </div>
-                <div className="screen-button" onClick={() => this.back()}>
+                </Button>
+                <Button className="screen-button" onClick={() => this.back()}>
                     <span><img src={back}
                                style={{height: '40%', paddingRight: '0.5rem'}}
                                alt=""/></span>后悔药
-                </div>
-                <div className="screen-screen">
+                </Button>
+                <Button className="screen-screen">
                     得分：{this.state.score || 0}
-                </div>
+                </Button>
             </div>
             <div style={{width: '100%', paddingTop: '100%', position: 'relative'}}>
                 <div style={{position: 'absolute', top: '0', height: '100%', width: '100%'}}>

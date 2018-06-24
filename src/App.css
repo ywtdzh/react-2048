@@ -44,22 +44,10 @@
 
 .screen-button {
     width: calc(30% - 4px);
-    height: 3rem;
-    text-align: center;
-    display: inline-block;
     margin: 2px;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background-color: aquamarine;
 }
 
 .screen-screen {
     width: calc(40% - 4px);
-    height: 3rem;
-    text-align: center;
-    display: inline-block;
     margin: 2px;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background-color: aquamarine;
 }
