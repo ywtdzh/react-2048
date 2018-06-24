@@ -21,7 +21,7 @@ function RootRouter(props) {
                 </h2>
             </Header>
             <Content className="content-body" style={{
-                display:'flex',
+                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>

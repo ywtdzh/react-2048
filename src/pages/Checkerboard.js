@@ -12,7 +12,7 @@ import restart from '../restart.png';
 import back from '../back.png';
 import '../App.css';
 
-const __signals__ = new WeakMap();
+const __semaphores__ = new WeakMap();
 
 function generateNum(matrix) {
     const free = [];
@@ -36,21 +36,7 @@ class Checkerboard extends React.Component {
                 recognizers: [[Hammer.Swipe, {direction: Hammer.DIRECTION_ALL}]],
             });
         this.swipeManager.on("swipe", (events) => {
-            switch (events.direction) {
-                case Hammer.DIRECTION_LEFT:
-                    this.move(Hammer.DIRECTION_LEFT);
-                    break;
-                case Hammer.DIRECTION_UP:
-                    this.move(Hammer.DIRECTION_UP);
-                    break;
-                case Hammer.DIRECTION_RIGHT:
-                    this.move(Hammer.DIRECTION_RIGHT);
-                    break;
-                case Hammer.DIRECTION_DOWN:
-                    this.move(Hammer.DIRECTION_DOWN);
-                    break;
-                default:
-            }
+            this.move(events.direction);
         });
     }
 
@@ -66,15 +52,15 @@ class Checkerboard extends React.Component {
         };
         this.history = [];
         this.maxNumber = 4;
-        Object.defineProperty(this, 'signal', {
+        Object.defineProperty(this, 'semaphore', {
             get() {
-                return __signals__.get(this) || 0;
+                return __semaphores__.get(this) || 0;
             },
             set(newSig) {
-                if ((!__signals__.get(this) && newSig) || (__signals__.get(this) && !newSig)) {
+                if ((!__semaphores__.get(this) && newSig) || (__semaphores__.get(this) && !newSig)) {
                     this.setState({locked: !!newSig});
                 }
-                __signals__.set(this, newSig);
+                __semaphores__.set(this, newSig);
             },
         });
     }
@@ -88,7 +74,7 @@ class Checkerboard extends React.Component {
     };
 
     move = (direction, isTest) => {
-        if (this.signal > 0) return;
+        if (this.state.locked) return;
         const matrix = this.state.board.map(row => row.slice());
         const modified = _.fill(new Array(4), false).map(() => _.fill(new Array(4), false));
         let score = this.state.score, moved = false;
@@ -239,7 +225,7 @@ class Checkerboard extends React.Component {
                     && !this.move(Hammer.DIRECTION_DOWN, true)
                 ) {
                     this.props.dispatch(new Action(new Score(this.state.score, this.maxNumber)));
-                    this.signal++;
+                    this.semaphore++;
                     Modal.confirm({
                         title: "Game Over",
                         content: `游戏结束！您的得分为${this.state.score}，成功拼出最大数字${this.maxNumber}！`,
@@ -267,7 +253,7 @@ class Checkerboard extends React.Component {
             locked: false, // lock UI when moving
             board: matrix, // 4 * 4 board
             score: 0,
-        }, () => this.signal = 0);
+        }, () => this.semaphore = 0);
     };
 
     keyDown = (event) => {
