@@ -2,15 +2,18 @@ import React from 'react';
 
 function NumBlock(props) {
     const {front, back} = NumBlock.colors[props.index] || {front: '#fff', back: '#530002'};
-    const fontSize = props.index < 7 ? '5rem' : props.index < 10 ? '3.3rem' : '2.5rem';
+    const fontSize = props.index < 7 ? '5rem' : props.index < 10 ? '3.1rem' : '2rem';
     return <div style={{
         backgroundColor: back,
         color: front, height: '100%',
-        width: '100%', fontSize,
+        width: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        fontSize,
     }}>
         {Math.pow(2, props.index).toFixed(0)}
     </div>;
@@ -40,5 +43,5 @@ export function BoardRow(props) {
     for (let i = 0; i < 4; i++) {
         cols.push(<Col><NumBlock index={board[rowIndex][i]}/></Col>)
     }
-    return <div style={{height: '25%', width: '100%'}}>{cols}</div>;
+    return <div style={{height: '25%', width: '100%', display: 'flex'}}>{cols}</div>;
 }

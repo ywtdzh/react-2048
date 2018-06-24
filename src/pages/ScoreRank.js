@@ -19,5 +19,5 @@ class ScoreRank extends React.Component {
 }
 
 export default connect((state) => ({
-    score: state.score.map((scoreObj, index) => `${index + 1} ${scoreObj.maxNumber} ${scoreObj.point} ${scoreObj.createdAt}`),
+    score: state.score.map((scoreObj, index) => `${index + 1} 最大数字${scoreObj.maxNumber} 总得分${scoreObj.point} 于${scoreObj.createdAt}`),
 }))(ScoreRank);

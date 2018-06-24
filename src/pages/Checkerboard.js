@@ -26,9 +26,10 @@ class Checkerboard extends React.Component {
     componentDidMount() {
         this.props.dispatch(Action(JSON.parse(window.localStorage.scoreList || '[]')));
         window.addEventListener("keydown", this.keyDown);
-        this.swipeManager = new Hammer.Manager(findDOMNode(this), {
-            recognizers: [[Hammer.Swipe, {direction: Hammer.DIRECTION_ALL}]],
-        });
+        if (!this.swipeManager)
+            this.swipeManager = new Hammer.Manager(findDOMNode(this), {
+                recognizers: [[Hammer.Swipe, {direction: Hammer.DIRECTION_ALL}]],
+            });
         this.swipeManager.on("swipe", (events) => {
             switch (events.direction) {
                 case Hammer.DIRECTION_LEFT:
@@ -58,6 +59,7 @@ class Checkerboard extends React.Component {
             board: matrix, // 4 * 4 board
             score: 0,
         };
+        this.maxNumber = 4;
         Object.defineProperty(this, 'signal', {
             get() {
                 return __signals__.get(this) || 0;
@@ -76,7 +78,7 @@ class Checkerboard extends React.Component {
         if (this.state.locked) return;
         const matrix = this.state.board.map(row => row.slice());
         const modified = _.fill(new Array(4), false).map(() => _.fill(new Array(4), false));
-        let score = this.state.score, maxNumber = 0, moved = false;
+        let score = this.state.score, moved = false;
         switch (direction) {
             case Hammer.DIRECTION_LEFT:
                 for (let col = 1; col < 4; col++) {
@@ -98,7 +100,7 @@ class Checkerboard extends React.Component {
                                 const got = Math.pow(2, matrix[row][current]);
                                 score += got;
                                 distance++;
-                                maxNumber = maxNumber < got ? got : maxNumber;
+                                this.maxNumber = this.maxNumber < got ? got : this.maxNumber;
                                 matrix[row][col] = 0;
                             } else if (matrix[row][current + 1] === 0) {
                                 matrix[row][current + 1] = matrix[row][col];
@@ -132,7 +134,7 @@ class Checkerboard extends React.Component {
                                 const got = Math.pow(2, matrix[current][col]);
                                 score += got;
                                 distance++;
-                                maxNumber = maxNumber < got ? got : maxNumber;
+                                this.maxNumber = this.maxNumber < got ? got : this.maxNumber;
                                 matrix[row][col] = 0;
                             } else if (matrix[current + 1][col] === 0) {
                                 matrix[current + 1][col] = matrix[row][col];
@@ -166,7 +168,7 @@ class Checkerboard extends React.Component {
                                 const got = Math.pow(2, matrix[row][current]);
                                 score += got;
                                 distance++;
-                                maxNumber = maxNumber < got ? got : maxNumber;
+                                this.maxNumber = this.maxNumber < got ? got : this.maxNumber;
                                 matrix[row][col] = 0;
                             } else if (matrix[row][current - 1] === 0) {
                                 matrix[row][current - 1] = matrix[row][col];
@@ -200,7 +202,7 @@ class Checkerboard extends React.Component {
                                 const got = Math.pow(2, matrix[current][col]);
                                 score += got;
                                 distance++;
-                                maxNumber = maxNumber < got ? got : maxNumber;
+                                this.maxNumber = this.maxNumber < got ? got : this.maxNumber;
                                 matrix[row][col] = 0;
                             } else if (matrix[current - 1][col] === 0) {
                                 matrix[current - 1][col] = matrix[row][col];
@@ -218,7 +220,6 @@ class Checkerboard extends React.Component {
         }
         if (!isTest) {
             generateNum(matrix);
-            generateNum(matrix);
             this.setState({board: matrix, score});
             if (
                 !this.move(Hammer.DIRECTION_LEFT, true)
@@ -226,8 +227,8 @@ class Checkerboard extends React.Component {
                 && !this.move(Hammer.DIRECTION_LEFT, true)
                 && !this.move(Hammer.DIRECTION_RIGHT, true)
             ) {
-                this.props.dispatch(new Action(new Score(score, maxNumber)));
-                alert(`游戏结束！您的得分为${score}，成功拼出最大数字${maxNumber}！`);
+                this.props.dispatch(new Action(new Score(score, this.maxNumber)));
+                alert(`游戏结束！您的得分为${score}，成功拼出最大数字${this.maxNumber}！`);
                 this.resetBoard();
             }
         }
@@ -256,6 +257,7 @@ class Checkerboard extends React.Component {
         const matrix = _.chunk(_.fill(new Array(16), 0, 0, 16), 4);
         generateNum(matrix);
         generateNum(matrix);
+        this.maxNumber = 4;
         this.setState({
             locked: false, // lock UI when moving
             board: matrix, // 4 * 4 board
@@ -284,7 +286,7 @@ class Checkerboard extends React.Component {
     }
 
     componentWillUnmount() {
-        window.addEventListener("keydown", this.keyDown);
+        window.removeEventListener("keydown", this.keyDown);
         this.swipeManager.remove('swipe');
     }
 }
