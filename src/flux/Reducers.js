@@ -8,7 +8,7 @@ const reducers = {
             return a.maxNumber === b.maxNumber && a.score === b.score && a.createdAt === b.createdAt;
         });
         window.localStorage.scoreList = JSON.stringify(currentState);
-        return currentState.sort((b, a) => (a.maxNumber - b.maxNumber || a.point - b.point || a.createdAt > b.createdAt));
+        return currentState.sort((b, a) => (a.point - b.point || a.maxNumber - b.maxNumber || a.createdAt > b.createdAt));
     }
 };
 

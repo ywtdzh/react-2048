@@ -32,12 +32,34 @@
 }
 
 .content-body {
-    width: 960px;
+    width: 600px;
     margin: 0 auto;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 600px) {
     .content-body {
         width: 100%;
     }
+}
+
+.screen-button {
+    width: calc(30% - 4px);
+    height: 3rem;
+    text-align: center;
+    display: inline-block;
+    margin: 2px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: aquamarine;
+}
+
+.screen-screen {
+    width: calc(40% - 4px);
+    height: 3rem;
+    text-align: center;
+    display: inline-block;
+    margin: 2px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: aquamarine;
 }

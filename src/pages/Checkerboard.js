@@ -7,6 +7,10 @@ import _ from 'lodash';
 import Score from "../public/Score";
 import {BoardRow} from "../public/BoardLayout";
 
+import restart from '../restart.png';
+import back from '../back.png';
+import '../App.css';
+
 const __signals__ = new WeakMap();
 
 function generateNum(matrix) {
@@ -59,6 +63,7 @@ class Checkerboard extends React.Component {
             board: matrix, // 4 * 4 board
             score: 0,
         };
+        this.history = [];
         this.maxNumber = 4;
         Object.defineProperty(this, 'signal', {
             get() {
@@ -73,8 +78,15 @@ class Checkerboard extends React.Component {
         });
     }
 
+    back = () => {
+        if (this.history.length === 0) return;
+        this.history.time = this.history.time + 1 || 1;
+        const state = this.history.pop();
+        state.score -= this.history.time * 100;
+        this.setState(state);
+    };
 
-    move(direction, isTest) {
+    move = (direction, isTest) => {
         if (this.state.locked) return;
         const matrix = this.state.board.map(row => row.slice());
         const modified = _.fill(new Array(4), false).map(() => _.fill(new Array(4), false));
@@ -220,26 +232,29 @@ class Checkerboard extends React.Component {
         }
         if (!isTest) {
             generateNum(matrix);
-            this.setState({board: matrix, score});
-            if (
-                !this.move(Hammer.DIRECTION_LEFT, true)
-                && !this.move(Hammer.DIRECTION_UP, true)
-                && !this.move(Hammer.DIRECTION_LEFT, true)
-                && !this.move(Hammer.DIRECTION_RIGHT, true)
-            ) {
-                this.props.dispatch(new Action(new Score(score, this.maxNumber)));
-                alert(`游戏结束！您的得分为${score}，成功拼出最大数字${this.maxNumber}！`);
-                this.resetBoard();
-            }
+            this.history.push({board: this.state.board, score: this.state.score});
+            if (this.history.length > 5) this.history.shift();
+            this.setState({board: matrix, score}, () => {
+                if (
+                    !this.move(Hammer.DIRECTION_LEFT, true)
+                    && !this.move(Hammer.DIRECTION_UP, true)
+                    && !this.move(Hammer.DIRECTION_LEFT, true)
+                    && !this.move(Hammer.DIRECTION_RIGHT, true)
+                ) {
+                    this.props.dispatch(new Action(new Score(this.state.score, this.maxNumber)));
+                    alert(`游戏结束！您的得分为${this.state.score}，成功拼出最大数字${this.maxNumber}！`);
+                    this.resetBoard();
+                }
+            });
         }
         if (moved) {
             return matrix;
         } else {
             return null;
         }
-    }
+    };
 
-    moveItem(direction, rowIndex, colIndex, distance) {
+    moveItem = (direction, rowIndex, colIndex, distance) => {
         // todo
         this.signal++;
         switch (direction) {
@@ -250,20 +265,21 @@ class Checkerboard extends React.Component {
             default:
         }
         this.signal--;
-    }
+    };
 
-    resetBoard() {
+    resetBoard = () => {
         this.signal = 0;
         const matrix = _.chunk(_.fill(new Array(16), 0, 0, 16), 4);
         generateNum(matrix);
         generateNum(matrix);
         this.maxNumber = 4;
+        this.history = [];
         this.setState({
             locked: false, // lock UI when moving
             board: matrix, // 4 * 4 board
             score: 0,
         });
-    }
+    };
 
     keyDown = (event) => {
         if (event.defaultPrevented === true) return;
@@ -278,11 +294,28 @@ class Checkerboard extends React.Component {
         for (let i = 0; i < 4; i++) {
             rows.push(<BoardRow board={this.state.board} rowIndex={i}/>);
         }
-        return <div style={{width: '100%', paddingTop: '100%', position: 'relative'}}>
-            <div style={{position: 'absolute', top: '0', height: '100%', width: '100%'}}>
-                {rows}
+        return [
+            <div>
+                <div className="screen-button" onClick={() => this.resetBoard()}>
+                    <span><img src={restart}
+                               style={{height: '40%', paddingRight: '1rem'}}
+                               alt=""/></span>重新来过
+                </div>
+                <div className="screen-button" onClick={() => this.back()}>
+                    <span><img src={back}
+                               style={{height: '40%', paddingRight: '0.5rem'}}
+                               alt=""/></span>后悔药
+                </div>
+                <div className="screen-screen">
+                    得分：{this.state.score || 0}
+                </div>
+            </div>,
+            <div style={{width: '100%', paddingTop: '100%', position: 'relative'}}>
+                <div style={{position: 'absolute', top: '0', height: '100%', width: '100%'}}>
+                    {rows}
+                </div>
             </div>
-        </div>;
+        ];
     }
 
     componentWillUnmount() {
