@@ -238,8 +238,8 @@ class Checkerboard extends React.Component {
                 if (
                     !this.move(Hammer.DIRECTION_LEFT, true)
                     && !this.move(Hammer.DIRECTION_UP, true)
-                    && !this.move(Hammer.DIRECTION_LEFT, true)
                     && !this.move(Hammer.DIRECTION_RIGHT, true)
+                    && !this.move(Hammer.DIRECTION_DOWN, true)
                 ) {
                     this.props.dispatch(new Action(new Score(this.state.score, this.maxNumber)));
                     alert(`游戏结束！您的得分为${this.state.score}，成功拼出最大数字${this.maxNumber}！`);
